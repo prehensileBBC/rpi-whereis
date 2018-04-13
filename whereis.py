@@ -13,8 +13,12 @@ try:
 except ImportError:
     exit("This script requires the requests module\nInstall with: sudo pip install requests")
 
-def get_location():
-    url = 'https://where.virt.ch.bbc.co.uk/api/1/users/n/location.json?auth_token=xxxxxxxxxxx'
+
+def get_location( user_number, auth_token ):
+    url = 'https://where.virt.ch.bbc.co.uk/api/1/users/%s/location.json?auth_token=%s' % (
+        user_number,
+        auth_token
+    )
     res = requests.get(url)
     if(res.status_code == 200):
         json_data = json.loads(res.text)
@@ -22,7 +26,21 @@ def get_location():
     return {}
 
 
+def load_config():
+    lines = []
+    with open( "config.txt" ) as f:
+        lines = f.read().splitlines()
+    return {
+        "caption" : lines[0],
+        "user_number" : lines[1],
+        "auth_token" : lines[2],
+    }
+
+
 def main():
+    
+    config = load_config()
+
     epd = epd2in13b.EPD()
     epd.init()
     epd.set_rotate(1)
@@ -34,9 +52,9 @@ def main():
     epd.draw_filled_rectangle(frame_red, 0, 0, 250, 55, COLORED);
 
     font = ImageFont.truetype('/usr/share/fonts/AmaticSC-Bold.ttf', 38)
-    epd.draw_string_at(frame_red, 25, 10, "WHERE IS FOO?", font, UNCOLORED)
+    epd.draw_string_at(frame_red, 25, 10, config["caption"], font, UNCOLORED)
 
-    data = get_location()
+    data = get_location( config["user_number"], config["auth_token"] )
     ds = "unknown"
     print(data)
 
