@@ -1,3 +1,16 @@
+#!/usr/bin/env python 
+
+##
+# whereis.py
+##
+# This script updates a Waveshare 2.13inch three-colour e-Paper HAT
+# with status information taken from BBC Whereabouts.
+#
+# Author: Libby Miller <libby.miller@bbc.co.uk>
+# Author: Henry Cooke <henry.cooke@bbc.co.uk>   
+#
+##
+
 import epd2in13b
 import time
 import Image
