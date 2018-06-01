@@ -22,6 +22,9 @@ def ews_account():
     #ews_password = None
     # ews_password = input( "Password: " )
     ews_password = keyring.get_password( _IDENTIFIER, "master" )
+    if ews_password is None:
+        ews_password = input( "Password: " )
+        keyring.set_password( _IDENTIFIER, "master", ews_password  )
 
     credentials = Credentials(
         os.environ.get( "EWS_ACCOUNT" ),
@@ -135,4 +138,4 @@ if __name__ == '__main__':
         run()
     except Exception as e:
         logging.exception( e )
-        raise e
+        # raise e
