@@ -71,16 +71,16 @@ def main():
 
     epd = epd2in13b.EPD()
     epd.init()
-    epd.set_rotate(1)
+    epd.set_rotate(3)
 
     # clear the frame buffer
     frame_black = [0xFF] * (epd.width * epd.height / 8)
     frame_red = [0xFF] * (epd.width * epd.height / 8)
   
-    epd.draw_filled_rectangle(frame_black, 0, 0, 250, 40, COLORED);
+    epd.draw_filled_rectangle(frame_black, 0, 0, 250, 55, COLORED);
 
-    font = ImageFont.truetype('/usr/share/fonts/marvinVisions.otf', 28)
-    epd.draw_string_at(frame_black, 12, 6, config["caption"], font, UNCOLORED)
+    font = ImageFont.truetype('/usr/share/fonts/marvinVisions.otf', 21)
+    epd.draw_string_at(frame_black, 68, 25, config["caption"], font, UNCOLORED)
 
     data = get_location( config["user_number"], config["auth_token"] )
     # Add this to config to make it customisable 
@@ -97,10 +97,10 @@ def main():
     print(len(config["caption"]))
 
     if(len(ds) > len(config["caption"])):
-        font1 = ImageFont.truetype('/usr/share/fonts/marvinVisions.otf', 20)
-        epd.draw_string_at(frame_black, 12, 45, ds, font1, COLORED)
+        font1 = ImageFont.truetype('/usr/share/fonts/marvinVisions.otf', 13)
+        epd.draw_string_at(frame_black, 72, 65, ds, font1, COLORED)
     else:
-        epd.draw_string_at(frame_black, 12, 45, ds, font, COLORED)
+        epd.draw_string_at(frame_black, 72, 65, ds, font, COLORED)
 
     if (config["old_ds"] != ds):
     	epd.display_frame(frame_black, frame_red)
